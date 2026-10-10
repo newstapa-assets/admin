@@ -303,3 +303,43 @@ body > .navbar:first-of-type,
 .content ul.pagination > li.prev.disabled > .page-link{color:#C3C8CF !important;background:#FAFBFC !important}
 .content ul.pagination > li.prev{margin-right:8px}
 .content ul.pagination > li.next{margin-left:8px}
+
+/* =========================================================
+   접힌 사이드바(.sidebar-xs, 768px 이상) — 위 펼친 상태용 여백·정렬(!important)이
+   테마의 접힌 규칙을 덮어 아이콘이 오른쪽으로 밀리고 선택 표시·화살표가 밖으로 나가던 것 바로잡기
+   ========================================================= */
+@media (min-width:768px){
+  .sidebar-xs .sidebar-main .nav-sidebar{padding:0 6px}
+  .sidebar-xs .sidebar-main .nav-sidebar > .nav-item{margin:2px 0;min-width:0}
+
+  /* 메뉴: 아이콘만 가운데 */
+  .sidebar-xs .sidebar-main .nav-sidebar > .nav-item > .nav-link{
+    justify-content:center;
+    gap:0;
+    padding:9px 0 !important;
+  }
+  .sidebar-xs .sidebar-main .nav-sidebar > .nav-item > .nav-link > i{width:auto;font-size:15px !important}
+  .sidebar-xs .sidebar-main .nav-sidebar > .nav-item > .nav-link > span{display:none}
+  .sidebar-xs .sidebar-main .nav-sidebar > .nav-item-submenu > .nav-link:after{content:none !important;display:none}
+
+  /* 그룹 머리글: 점 세 개(•••)만 가운데 */
+  .sidebar-xs .sidebar-main .nav-sidebar > .nav-item-header{padding:12px 0 4px !important;text-align:center}
+  .sidebar-xs .sidebar-main .nav-sidebar > .nav-item-header:first-child{padding-top:6px !important}
+  .sidebar-xs .sidebar-main .nav-sidebar > .nav-item-header > i{display:block;padding:0;margin:0;font-size:14px;color:var(--sb-muted)}
+
+  /* 구분선 */
+  .sidebar-xs .sidebar-main .nav-sidebar > .nav-item-divider{margin:6px 8px !important}
+
+  /* 마우스를 올리면 옆으로 펼쳐지는 하위메뉴 */
+  .sidebar-xs .sidebar-main .nav-sidebar > .nav-item-submenu > .nav-group-sub{
+    margin:0 !important;
+    padding:6px !important;
+    background:#fff !important;
+    border:1px solid var(--sb-line) !important;
+    border-radius:0 10px 10px 0;
+    box-shadow:0 8px 24px rgba(16,24,40,.08) !important;
+  }
+  .sidebar-xs .sidebar-main .nav-sidebar > .nav-item-submenu > .nav-group-sub[data-submenu-title]:before{
+    padding:6px 10px 4px;margin:0;color:var(--sb-muted);opacity:1;font-size:11.5px;font-weight:600;
+  }
+}
