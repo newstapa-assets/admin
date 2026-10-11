@@ -1,6 +1,55 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
 
-.sidebar-main{
+/* =========================================================
+   색·모서리 변수 (2026-10-11 — 라이트/다크/시스템 화면 모드)
+   - <html data-theme="light|dark|system"> 은 서버가 그린다(Node lib/layout.js, 회원별 ruizyi_users.theme 1/2/3).
+     system 은 운영체제·브라우저의 prefers-color-scheme 을 따른다. data-theme 가 없는 화면(로그인 전 등)은 라이트.
+   - 아래 :root 가 라이트 값(원래 style2 값 그대로)이고, 다크 값은 두 블록에 "똑같이" 적는다
+     (하나는 data-theme="dark", 하나는 data-theme="system" + 시스템 다크). 고칠 때 두 블록을 함께 고친다.
+   - 규칙은 모두 변수만 쓴다 — 다크용 규칙을 따로 두 번 쓰지 않는다. 부품(옛 Limitless 테마·플러그인) 규칙은 css/style2-components.css.
+   ========================================================= */
+:root{
+  color-scheme:light;
+  --ui-bg:#F7F8FA;
+  --ui-card:#FFFFFF;      /* 카드·상단/하단 바·사이드바·떠 있는 상자 */
+  --ui-soft:#FAFBFC;      /* 표 머리·비활성 입력·옅은 바탕 */
+  --ui-hover:#F4F6F9;     /* 목록 항목 hover */
+  --ui-row-hover:#F8FAFD; /* 표 줄 hover */
+  --ui-input:#FFFFFF;     /* 입력칸 바탕 */
+  --ui-line:#EEF0F3;      /* 연한 선(카드·표) */
+  --ui-line2:#DDE1E6;     /* 입력칸 테두리 */
+  --ui-faint:#C3C8CF;     /* 비활성 글씨·옅은 아이콘 */
+  --ui-ink:#1F2329;
+  --ui-text:#4A505A;
+  --ui-muted:#8A919C;
+  --ui-on-ink:#FFFFFF;    /* --ui-ink 바탕 위 글씨 */
+  --ui-brand:#3D7BE0;
+  --ui-focus:rgba(61,123,224,.15);
+  --ui-online:#12B76A;    --ui-online-ring:rgba(18,183,106,.18);
+  --ui-blue-bg:#EAF2FE;   --ui-blue:#1F4FA8;
+  --ui-green-bg:#E7F8EF;  --ui-green:#0E7A4D;
+  --ui-teal-bg:#E3F6F8;   --ui-teal:#0B6E7A;
+  --ui-gray-bg:#F1F3F5;   --ui-gray:#5A616B;
+  --ui-red-bg:#FDECEC;    --ui-red:#B42318;
+  --ui-amber-bg:#FFF4E0;  --ui-amber:#9A5B00;
+  --ui-knob:#FFFFFF;      /* 스위치 손잡이 */
+  --ui-veil:rgba(255,255,255,.82); /* 반투명 덮개(처리 중 등) */
+  --ui-hl-bg:#FFFBE9;     --ui-hl-ink:#5E8A99;   /* 글 편집 고유ID 칸(원래 #92B5C1 — 흰 노랑 위에서 흐려 조금 진하게) */
+  --ui-mark-a:rgba(255,240,106,.9); --ui-mark-b:rgba(255,240,106,.6); --ui-mark-ink:#333; /* 형광펜(span.highlight-container — 원래 css/style.css 값) */
+  --ui-seg-on:#FFFFFF;    /* 하단 라이트·다크·시스템 — 켜진 칸 */
+  /* 채운 버튼(옛 테마 원색 버튼을 새 톤으로): 파랑은 --ui-brand, 초록·주황은 흰 글씨 대비 3:1 넘는 값. 두 모드 같은 값 */
+  --ui-btn-green:#12A05C; --ui-btn-orange:#E8590C; --ui-btn-gray:#6B7280;
+  --ui-chevron:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5l3 3 3-3' fill='none' stroke='%238A919C' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --ui-shadow-card:0 1px 2px rgba(16,24,40,.04);
+  --ui-shadow-pop:0 8px 24px rgba(16,24,40,.08);
+  /* 투명 PNG 확인용 체크무늬(img#meta_data — 원래 css/style.css 값) */
+  --ui-check-line:#E8E8E8; --ui-check-a:#CACACA; --ui-check-b:#FFFFFF;
+  /* 빈 이미지(1px 투명 gif·src="") 자리 표시 */
+  --ui-noimg:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='44' viewBox='0 0 96 44'%3E%3Cg fill='none' stroke='%23A3AAB4' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='38' y='2' width='20' height='16' rx='3'/%3E%3Ccircle cx='43.5' cy='7.5' r='1.6'/%3E%3Cpath d='M58 14l-5-5-9 9'/%3E%3C/g%3E%3Ctext x='48' y='37' text-anchor='middle' font-family='-apple-system,BlinkMacSystemFont,Apple SD Gothic Neo,Malgun Gothic,sans-serif' font-size='11.5' font-weight='500' fill='%238A919C'%3E%EC%9D%B4%EB%AF%B8%EC%A7%80 %EC%97%86%EC%9D%8C%3C/text%3E%3C/svg%3E");
+  /* 모서리: 입력·버튼·알림 8 / 칩 6 / 모달·대화상자 12 / 카드 14 */
+  --ui-r:8px; --ui-r-sm:6px; --ui-r-lg:12px; --ui-r-card:14px;
+
+  /* 사이드바 */
   --sb-bg:#ffffff;
   --sb-line:#EEF0F3;
   --sb-ink:#1F2329;
@@ -11,6 +60,117 @@
   --sb-active-bg:#EAF2FE;
   --sb-active:#1F4FA8;
   --sb-brand:#3D7BE0;
+  --sb-badge-bg:#EEF0F3;  --sb-badge:#5A616B;
+  --sb-scroll:#DDE1E6;
+  --sb-pop:#fff;          /* 접힌 사이드바에서 옆으로 펼쳐지는 하위메뉴 */
+}
+:root[data-theme="system"]{color-scheme:light dark}
+/* 다크 ① — 회원이 '다크'를 고름 */
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ui-bg:#0F1114;
+  --ui-card:#171A1F;
+  --ui-soft:#1B1F25;
+  --ui-hover:#22262D;
+  --ui-row-hover:#1D2127;
+  --ui-input:#13161A;
+  --ui-line:#262A31;
+  --ui-line2:#353A43;
+  --ui-faint:#4C525C;
+  --ui-ink:#E8EAED;
+  --ui-text:#BCC2CA;
+  --ui-muted:#8A919C;
+  --ui-on-ink:#111317;
+  --ui-brand:#5B93F0;
+  --ui-focus:rgba(91,147,240,.28);
+  --ui-online:#2BD47F;    --ui-online-ring:rgba(43,212,127,.2);
+  --ui-blue-bg:rgba(91,147,240,.16);  --ui-blue:#8DB5F8;
+  --ui-green-bg:rgba(43,212,127,.14); --ui-green:#6BD9A2;
+  --ui-teal-bg:rgba(45,190,205,.15);  --ui-teal:#6CD0DC;
+  --ui-gray-bg:#252A31;               --ui-gray:#AEB5BE;
+  --ui-red-bg:rgba(240,82,72,.16);    --ui-red:#F59A92;
+  --ui-amber-bg:rgba(245,166,35,.15); --ui-amber:#F0BF6E;
+  --ui-knob:#F2F4F7;
+  --ui-veil:rgba(15,17,20,.8);
+  --ui-hl-bg:rgba(245,196,66,.08);    --ui-hl-ink:#9CC3D0;
+  --ui-mark-a:rgba(240,191,110,.30);  --ui-mark-b:rgba(240,191,110,.18); --ui-mark-ink:#F3E3C0;
+  --ui-seg-on:#353A43;
+  --ui-shadow-card:0 1px 2px rgba(0,0,0,.35);
+  --ui-shadow-pop:0 12px 32px rgba(0,0,0,.5);
+  /* 체크무늬는 투명 PNG 의 바탕 확인용 — 다크에서도 검은 로고·흰 로고가 모두 보이게 중간 회색 두 톤 */
+  --ui-check-line:#3A3F47; --ui-check-a:#8E949C; --ui-check-b:#B8BDC4;
+  --ui-noimg:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='44' viewBox='0 0 96 44'%3E%3Cg fill='none' stroke='%236E7682' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='38' y='2' width='20' height='16' rx='3'/%3E%3Ccircle cx='43.5' cy='7.5' r='1.6'/%3E%3Cpath d='M58 14l-5-5-9 9'/%3E%3C/g%3E%3Ctext x='48' y='37' text-anchor='middle' font-family='-apple-system,BlinkMacSystemFont,Apple SD Gothic Neo,Malgun Gothic,sans-serif' font-size='11.5' font-weight='500' fill='%23848B96'%3E%EC%9D%B4%EB%AF%B8%EC%A7%80 %EC%97%86%EC%9D%8C%3C/text%3E%3C/svg%3E");
+
+  --sb-bg:#171A1F;
+  --sb-line:#262A31;
+  --sb-ink:#E8EAED;
+  --sb-text:#B4BAC3;
+  --sb-muted:#7D848F;
+  --sb-icon:#7D848F;
+  --sb-hover:#21252C;
+  --sb-active-bg:rgba(91,147,240,.16);
+  --sb-active:#A9C7FA;
+  --sb-brand:#6EA0F3;
+  --sb-badge-bg:#262A31;  --sb-badge:#AEB5BE;
+  --sb-scroll:#353A43;
+  --sb-pop:#1B1F25;
+}
+/* 다크 ② — '시스템'을 고르고 운영체제가 다크 (① 과 같은 값) */
+@media (prefers-color-scheme: dark){
+  :root[data-theme="system"]{
+    color-scheme:dark;
+    --ui-bg:#0F1114;
+    --ui-card:#171A1F;
+    --ui-soft:#1B1F25;
+    --ui-hover:#22262D;
+    --ui-row-hover:#1D2127;
+    --ui-input:#13161A;
+    --ui-line:#262A31;
+    --ui-line2:#353A43;
+    --ui-faint:#4C525C;
+    --ui-ink:#E8EAED;
+    --ui-text:#BCC2CA;
+    --ui-muted:#8A919C;
+    --ui-on-ink:#111317;
+    --ui-brand:#5B93F0;
+    --ui-focus:rgba(91,147,240,.28);
+    --ui-online:#2BD47F;    --ui-online-ring:rgba(43,212,127,.2);
+    --ui-blue-bg:rgba(91,147,240,.16);  --ui-blue:#8DB5F8;
+    --ui-green-bg:rgba(43,212,127,.14); --ui-green:#6BD9A2;
+    --ui-teal-bg:rgba(45,190,205,.15);  --ui-teal:#6CD0DC;
+    --ui-gray-bg:#252A31;               --ui-gray:#AEB5BE;
+    --ui-red-bg:rgba(240,82,72,.16);    --ui-red:#F59A92;
+    --ui-amber-bg:rgba(245,166,35,.15); --ui-amber:#F0BF6E;
+    --ui-knob:#F2F4F7;
+    --ui-veil:rgba(15,17,20,.8);
+    --ui-hl-bg:rgba(245,196,66,.08);    --ui-hl-ink:#9CC3D0;
+    --ui-mark-a:rgba(240,191,110,.30);  --ui-mark-b:rgba(240,191,110,.18); --ui-mark-ink:#F3E3C0;
+    --ui-seg-on:#353A43;
+    --ui-shadow-card:0 1px 2px rgba(0,0,0,.35);
+    --ui-shadow-pop:0 12px 32px rgba(0,0,0,.5);
+    /* 체크무늬는 투명 PNG 의 바탕 확인용 — 다크에서도 검은 로고·흰 로고가 모두 보이게 중간 회색 두 톤 */
+    --ui-check-line:#3A3F47; --ui-check-a:#8E949C; --ui-check-b:#B8BDC4;
+    --ui-noimg:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='44' viewBox='0 0 96 44'%3E%3Cg fill='none' stroke='%236E7682' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='38' y='2' width='20' height='16' rx='3'/%3E%3Ccircle cx='43.5' cy='7.5' r='1.6'/%3E%3Cpath d='M58 14l-5-5-9 9'/%3E%3C/g%3E%3Ctext x='48' y='37' text-anchor='middle' font-family='-apple-system,BlinkMacSystemFont,Apple SD Gothic Neo,Malgun Gothic,sans-serif' font-size='11.5' font-weight='500' fill='%23848B96'%3E%EC%9D%B4%EB%AF%B8%EC%A7%80 %EC%97%86%EC%9D%8C%3C/text%3E%3C/svg%3E");
+
+    --sb-bg:#171A1F;
+    --sb-line:#262A31;
+    --sb-ink:#E8EAED;
+    --sb-text:#B4BAC3;
+    --sb-muted:#7D848F;
+    --sb-icon:#7D848F;
+    --sb-hover:#21252C;
+    --sb-active-bg:rgba(91,147,240,.16);
+    --sb-active:#A9C7FA;
+    --sb-brand:#6EA0F3;
+    --sb-badge-bg:#262A31;  --sb-badge:#AEB5BE;
+    --sb-scroll:#353A43;
+    --sb-pop:#1B1F25;
+  }
+}
+/* 화면 모드를 바꾸는 순간 transition 이 엇갈려 번쩍이지 않게(footer.ejs 가 잠깐 붙였다 뗀다) */
+:root.ui-theme-switching,:root.ui-theme-switching *,:root.ui-theme-switching *::before,:root.ui-theme-switching *::after{transition:none !important}
+
+.sidebar-main{
   background:var(--sb-bg) !important;
   border-right:1px solid var(--sb-line) !important;
   box-shadow:none !important;
@@ -23,7 +183,7 @@
 
 /* 스크롤바 */
 .sidebar-main .sidebar-content::-webkit-scrollbar{width:6px}
-.sidebar-main .sidebar-content::-webkit-scrollbar-thumb{background:#DDE1E6;border-radius:3px}
+.sidebar-main .sidebar-content::-webkit-scrollbar-thumb{background:var(--sb-scroll);border-radius:3px}
 .sidebar-main .sidebar-content::-webkit-scrollbar-track{background:transparent}
 
 /* 목록 기본 */
@@ -135,7 +295,7 @@
   line-height:1.4 !important;
   border:0 !important;
 }
-.sidebar-main .nav-sidebar .badge.bg-slate{background:#EEF0F3 !important;color:#5A616B !important}
+.sidebar-main .nav-sidebar .badge.bg-slate{background:var(--sb-badge-bg) !important;color:var(--sb-badge) !important}
 .sidebar-main .nav-sidebar .badge.bg-primary{background:var(--sb-active-bg) !important;color:var(--sb-active) !important}
 .sidebar-main .nav-sidebar .code2{
   font-family:inherit !important;
@@ -149,32 +309,19 @@
 }
 
 /* 모바일 상단 토글 바 */
-.sidebar-main .sidebar-mobile-toggler{background:#fff !important;border-bottom:1px solid var(--sb-line) !important;color:var(--sb-ink) !important;font-weight:600}
+.sidebar-main .sidebar-mobile-toggler{background:var(--sb-bg) !important;border-bottom:1px solid var(--sb-line) !important;color:var(--sb-ink) !important;font-weight:600}
 
 
 /* =========================================================
-   v2 — 상단 바 · 라벨 · 카드 · 테이블 정리
+   v2 — 상단 바 · 라벨 · 카드 · 테이블 정리   (--ui-* 변수는 이 파일 맨 위)
    ========================================================= */
-:root{
-  --ui-bg:#F7F8FA;
-  --ui-line:#EEF0F3;
-  --ui-ink:#1F2329;
-  --ui-text:#4A505A;
-  --ui-muted:#8A919C;
-  --ui-blue-bg:#EAF2FE;   --ui-blue:#1F4FA8;
-  --ui-green-bg:#E7F8EF;  --ui-green:#0E7A4D;
-  --ui-teal-bg:#E3F6F8;   --ui-teal:#0B6E7A;
-  --ui-gray-bg:#F1F3F5;   --ui-gray:#5A616B;
-  --ui-red-bg:#FDECEC;    --ui-red:#B42318;
-  --ui-amber-bg:#FFF4E0;  --ui-amber:#9A5B00;
-}
 body{font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:var(--ui-bg) !important;color:var(--ui-ink);letter-spacing:-0.01em}
 .page-content,.content-wrapper{background:var(--ui-bg)}
 
 /* ---------- 상단 바 ---------- */
 body > .navbar:first-of-type,
 .navbar.navbar-expand-md.navbar-light{
-  background:#fff !important;
+  background:var(--ui-card) !important;
   border-bottom:1px solid var(--ui-line) !important;
   box-shadow:none !important;
 }
@@ -182,8 +329,10 @@ body > .navbar:first-of-type,
 .navbar-light .navbar-nav .nav-link:hover{background:var(--ui-gray-bg)}
 
 /* ---------- 라벨(배지) 공통: 'New Window' 스타일의 알약 ---------- */
+/* display 는 !important 를 두지 않는다 — inline style="display:none"·jQuery .hide() 로 숨긴 배지(타임라인 모달 '삭제' 등)가 보이던 것.
+   style2 가 테마 css 뒤에 읽혀 순서로 이긴다 */
 .badge{
-  display:inline-flex !important;
+  display:inline-flex;
   align-items:center;
   gap:5px;
   padding:3px 9px !important;
@@ -204,35 +353,51 @@ body > .navbar:first-of-type,
 .badge.bg-warning{background:var(--ui-amber-bg) !important;color:var(--ui-amber) !important}
 .badge[class*="bg-slate"],.badge.bg-secondary,.badge.bg-grey,.badge.bg-dark{background:var(--ui-gray-bg) !important;color:var(--ui-gray) !important}
 .badge.bg-transparent,.badge.bg-transp{background:transparent !important;color:var(--ui-text) !important}
+/* 옛 테마의 진한 색 배지(흰 글씨에 연두·노랑·하늘 — 대비 1.7~2.7)도 같은 연한 바탕 + 진한 글씨로.
+   'Kakao XML' 의 inline background 도 !important 로 덮는다. 표 안 키워드 태그(.content .table .badge[class*=bg-primary-])는 특정도가 높아 그대로 */
+.badge.bg-blue,.badge[class*="bg-blue-"],.badge.bg-light-blue,.badge[class*="bg-light-blue-"],.badge[class*="bg-primary-"],.badge.bg-indigo,.badge[class*="bg-indigo-"],
+.badge.badge-primary{background:var(--ui-blue-bg) !important;color:var(--ui-blue) !important}
+.badge.bg-green,.badge[class*="bg-green-"],.badge.bg-light-green,.badge[class*="bg-success-"],.badge.badge-success{background:var(--ui-green-bg) !important;color:var(--ui-green) !important}
+.badge.bg-teal,.badge[class*="bg-teal-"],.badge[class*="bg-info-"],.badge.bg-cyan,.badge.badge-info{background:var(--ui-teal-bg) !important;color:var(--ui-teal) !important}
+.badge.bg-yellow,.badge.bg-orange,.badge[class*="bg-orange-"],.badge.bg-brown,.badge[class*="bg-brown-"],.badge[class*="bg-warning-"],.badge.bg-amber,
+.badge.badge-warning{background:var(--ui-amber-bg) !important;color:var(--ui-amber) !important}
+.badge.bg-red,.badge[class*="bg-danger-"],.badge.bg-pink,.badge.badge-danger{background:var(--ui-red-bg) !important;color:var(--ui-red) !important}
+.badge.badge-secondary,.badge.badge-dark,.badge.badge-light{background:var(--ui-gray-bg) !important;color:var(--ui-gray) !important}
+/* 값이 없는 배지(빈 고유ID 등) — bootstrap 의 .badge:empty{display:none} 을 위 display 가 덮지 않게 */
+.badge:empty{display:none !important}
 
 /* 상단 'Online' — 초록 점 */
 .navbar-text .badge.bg-success::before{
   content:"";width:6px;height:6px;border-radius:50%;
-  background:#12B76A;box-shadow:0 0 0 3px rgba(18,183,106,.18);
+  background:var(--ui-online);box-shadow:0 0 0 3px var(--ui-online-ring);
 }
 .navbar-text .badge + .badge{margin-left:6px}
 
 /* ---------- 카드 ---------- */
 .content .card{
   border:1px solid var(--ui-line) !important;
-  border-radius:14px !important;
-  box-shadow:0 1px 2px rgba(16,24,40,.04) !important;
+  border-radius:var(--ui-r-card) !important;
+  box-shadow:var(--ui-shadow-card) !important;
   overflow:hidden;
 }
 .content .card[class*="border-top-"]{border-top-width:1px !important;border-top-color:var(--ui-line) !important}
 .content .card-header{
-  background:#fff !important;
+  background:var(--ui-card) !important;
   border-bottom:1px solid var(--ui-line) !important;
   padding:18px 22px !important;
 }
 .content .card-header .card-title,
 .content .card-header h5,.content .card-header h6{font-size:17px !important;font-weight:700 !important;letter-spacing:-0.02em;color:var(--ui-ink)}
 .content .card-header i{color:var(--ui-muted)}
+.content .card-header .btn i,.content .card-header .badge i{color:inherit}  /* 버튼·배지 안 아이콘은 글씨색 그대로 */
+/* 카드로 감싸지 않은 머리·본문(.content 바로 아래 card-header + card-body — 메뉴 관리 menu.ejs, 활동기록 확인 logs.ejs)도 카드처럼 */
+.content > .card-header{background:var(--ui-card) !important;border:1px solid var(--ui-line) !important;border-radius:var(--ui-r-card) var(--ui-r-card) 0 0}
+.content > .card-header + .card-body{background:var(--ui-card);border:1px solid var(--ui-line);border-top:0;border-radius:0 0 var(--ui-r-card) var(--ui-r-card);box-shadow:var(--ui-shadow-card);margin-bottom:1.25rem}
 
 /* ---------- 테이블 ---------- */
 .content .table{margin:0;color:var(--ui-text)}
 .content .table thead th{
-  background:#FAFBFC !important;
+  background:var(--ui-soft) !important;
   color:var(--ui-muted) !important;
   font-size:12.5px !important;
   font-weight:600 !important;
@@ -244,10 +409,10 @@ body > .navbar:first-of-type,
 .content .table td{border-top:1px solid var(--ui-line) !important;padding:14px !important;vertical-align:middle !important}
 .content .table-striped tbody tr:nth-of-type(odd){background:transparent !important}
 .content .table tbody tr{transition:background .12s}
-.content .table tbody tr:hover{background:#F8FAFD !important}
+.content .table tbody tr:hover{background:var(--ui-row-hover) !important}
 .content .table td b{color:var(--ui-ink);font-weight:600}
 
-/* 테이블 안 배지: 조용한 톤 */
+/* 테이블 안 배지: 조용한 톤(번호·고유ID 배지는 nestable 줄 .dd-content 에도 있어 .content 전체) */
 .content .table .badge[class*="bg-primary-"]{      /* 키워드 태그 */
   background:var(--ui-gray-bg) !important;color:var(--ui-gray) !important;
   font-weight:500 !important;margin:2px 1px;
@@ -258,9 +423,9 @@ body > .navbar:first-of-type,
 }
 .content .table .badge.bg-transp,
 .content .table .badge.bg-transparent{            /* 기자명 */
-  background:#fff !important;border:1px solid var(--ui-line) !important;color:var(--ui-text) !important;font-weight:500 !important;
+  background:var(--ui-card) !important;border:1px solid var(--ui-line) !important;color:var(--ui-text) !important;font-weight:500 !important;
 }
-.content .table .id_badge{              /* 번호 · 고유ID */
+.content .id_badge{                     /* 번호 · 고유ID */
   display:inline-block;padding:2px 8px;border-radius:6px;
   background:var(--ui-gray-bg) !important;color:var(--ui-gray) !important;
   font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;font-weight:500;
@@ -268,12 +433,19 @@ body > .navbar:first-of-type,
 
 /* ---------- 버튼 · 입력 ---------- */
 .content .btn{border-radius:8px !important;font-weight:600;box-shadow:none !important}
-.content .form-control,.content .custom-select{border-radius:8px !important;border-color:#DDE1E6 !important}
-.content .form-control:focus{border-color:#3D7BE0 !important;box-shadow:0 0 0 3px rgba(61,123,224,.15) !important}
+.content .form-control,.content .custom-select{border-radius:var(--ui-r) !important;border-color:var(--ui-line2) !important}
+.content .form-control:focus{border-color:var(--ui-brand) !important;box-shadow:0 0 0 3px var(--ui-focus) !important}
+/* input-group 이음새: 위 8px !important 가 bootstrap 의 안쪽 모서리 0 을 덮어 칸과 버튼 사이가 둥글게 갈라지던 것(자사 글 보기·회원 리스트 검색) */
+.content .input-group > .form-control:not(:last-child),.content .input-group > .custom-select:not(:last-child),
+.content .input-group > .input-group-prepend ~ .form-control:not(:last-child){border-top-right-radius:0 !important;border-bottom-right-radius:0 !important}
+.content .input-group > .form-control:not(:first-child),.content .input-group > .custom-select:not(:first-child){border-top-left-radius:0 !important;border-bottom-left-radius:0 !important}
+.content .input-group > .input-group-append > .btn,.content .input-group > .input-group-append > .input-group-text{border-top-left-radius:0 !important;border-bottom-left-radius:0 !important}
+.content .input-group > .input-group-prepend > .btn,.content .input-group > .input-group-prepend > .input-group-text{border-top-right-radius:0 !important;border-bottom-right-radius:0 !important}
+.content .input-group > .input-group-append:not(:last-child) > .btn,.content .input-group > .input-group-prepend:not(:first-child) > .btn{border-radius:0 !important}
 
 /* ---------- 하단 바 ---------- */
 .navbar.navbar-expand-lg.navbar-light{
-  background:#fff !important;border-top:1px solid var(--ui-line) !important;
+  background:var(--ui-card) !important;border-top:1px solid var(--ui-line) !important;
   color:var(--ui-muted) !important;font-size:12.5px;
 }
 .navbar.navbar-expand-lg.navbar-light .navbar-text,
@@ -281,8 +453,9 @@ body > .navbar:first-of-type,
 
 /* ---------- 페이지네이션 ---------- */
 .content div.pagination{display:flex;justify-content:center;width:100%;margin:24px 0 8px}
+/* 번호가 많으면 줄을 바꾼다(휴대폰 폭에서 가운데 정렬로 양쪽 밖으로 넘쳐 '처음·이전·1~6' 에 닿을 수 없던 것) */
 .content .row:has(> .col-md-6 > div.pagination) > .col-md-6{flex:0 0 100%;max-width:100%}
-.content ul.pagination{display:flex;align-items:center;gap:4px;margin:0;padding:0;box-shadow:none !important}
+.content ul.pagination{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 4px;max-width:100%;margin:0;padding:0;box-shadow:none !important}
 .content ul.pagination > li > .page-link{
   display:inline-flex;align-items:center;justify-content:center;
   min-width:36px;height:36px;padding:0 12px !important;margin:0 !important;
@@ -291,18 +464,23 @@ body > .navbar:first-of-type,
   font-size:13.5px;font-weight:500;line-height:1;
   box-shadow:none !important;transition:background .15s,color .15s;
 }
-.content ul.pagination > li > .page-link:hover{background:#EEF0F3 !important;color:var(--ui-ink) !important}
-.content ul.pagination > li.active > .page-link{background:var(--ui-ink) !important;color:#fff !important;font-weight:700}
-.content ul.pagination > li.disabled > .page-link{color:#C3C8CF !important;background:transparent !important;pointer-events:none}
+.content ul.pagination > li > .page-link:hover{background:var(--ui-line) !important;color:var(--ui-ink) !important}
+.content ul.pagination > li.active > .page-link{background:var(--ui-ink) !important;color:var(--ui-on-ink) !important;font-weight:700}
+.content ul.pagination > li.disabled > .page-link{color:var(--ui-faint) !important;background:transparent !important;pointer-events:none}
 /* 처음·이전 / 다음·끝은 테두리 버튼으로 구분 */
 .content ul.pagination > li.first > .page-link,
 .content ul.pagination > li.prev > .page-link,
 .content ul.pagination > li.next > .page-link,
-.content ul.pagination > li.last > .page-link{border-color:var(--ui-line) !important;background:#fff !important;color:var(--ui-text) !important}
+.content ul.pagination > li.last > .page-link{border-color:var(--ui-line) !important;background:var(--ui-card) !important;color:var(--ui-text) !important}
 .content ul.pagination > li.first.disabled > .page-link,
-.content ul.pagination > li.prev.disabled > .page-link{color:#C3C8CF !important;background:#FAFBFC !important}
+.content ul.pagination > li.prev.disabled > .page-link{color:var(--ui-faint) !important;background:var(--ui-soft) !important}
 .content ul.pagination > li.prev{margin-right:8px}
 .content ul.pagination > li.next{margin-left:8px}
+@media (max-width:575.98px){
+  .content ul.pagination > li > .page-link{min-width:32px;height:32px;padding:0 8px !important;font-size:13px}
+  .content ul.pagination > li.prev{margin-right:4px}
+  .content ul.pagination > li.next{margin-left:4px}
+}
 
 /* =========================================================
    접힌 사이드바(.sidebar-xs, 768px 이상) — 위 펼친 상태용 여백·정렬(!important)이
@@ -334,10 +512,10 @@ body > .navbar:first-of-type,
   .sidebar-xs .sidebar-main .nav-sidebar > .nav-item-submenu > .nav-group-sub{
     margin:0 !important;
     padding:6px !important;
-    background:#fff !important;
+    background:var(--sb-pop) !important;
     border:1px solid var(--sb-line) !important;
     border-radius:0 10px 10px 0;
-    box-shadow:0 8px 24px rgba(16,24,40,.08) !important;
+    box-shadow:var(--ui-shadow-pop) !important;
   }
   .sidebar-xs .sidebar-main .nav-sidebar > .nav-item-submenu > .nav-group-sub[data-submenu-title]:before{
     padding:6px 10px 4px;margin:0;color:var(--sb-muted);opacity:1;font-size:11.5px;font-weight:600;

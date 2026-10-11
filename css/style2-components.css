@@ -1,0 +1,492 @@
+/* =========================================================
+   style2-components.css — style2.css 의 짝 (2026-10-11)
+   옛 테마(Limitless)·플러그인 부품을 style2 톤(Pretendard · 카드 14 · 입력/버튼/알림 8 · 칩 6 · 모달 12 · 연한 선)으로 맞추고,
+   흰 바탕·검은 글씨를 박아 둔 규칙을 style2.css 맨 위의 변수(--ui-* · --sb-*)로 바꿔 라이트/다크가 한 규칙으로 되게 한다.
+   - 다크 값은 style2.css 의 변수 두 블록에만 있다. 여기는 변수만 쓴다(같은 다크 규칙을 두 번 쓰지 않는다).
+   - 레이아웃 header.ejs 가 style2.css 바로 뒤에 읽는다. 로그인·모던 에디터(/editor)·따로 뜨는 안내 페이지는 이 파일을 읽지 않는다.
+   - 글 편집 칸(summernote .note-editing-area)은 기사 실제 모양이라 다크에서도 라이트 값으로 둔다(아래 '편집 칸' 절).
+   ========================================================= */
+
+/* ---------- 0. 공통 바탕·글씨 ---------- */
+body{color:var(--ui-ink)}
+#navbar-footer{background-color:transparent}
+hr{border-top-color:var(--ui-line)}
+legend{border-bottom-color:var(--ui-line);color:var(--ui-ink)}
+.text-dark{color:var(--ui-ink) !important}
+.text-body{color:var(--ui-ink) !important}
+.text-muted{color:var(--ui-muted) !important}
+.text-secondary{color:var(--ui-muted) !important}
+.text-grey{color:var(--ui-muted)}
+.text-default{color:var(--ui-ink)}
+.bg-white{background-color:var(--ui-card) !important}
+.bg-light{background-color:var(--ui-soft) !important}
+.border:not([class*="border-"]){border-color:var(--ui-line) !important}
+.close{color:var(--ui-text);text-shadow:none}
+.close:hover,.close:focus{color:var(--ui-ink)}
+::selection{background:var(--ui-blue-bg)}
+
+/* 회색 이탤릭 안내(meta·시스템 설정 항목 설명 <span class="text-grey"><i class="fas …"></i> <i>…</i></span>) → 조용한 보조 글씨 */
+
+.text-grey > i:not([class]){font-style:normal}
+
+/* ---------- 1. 상단 바 · 하단 바 ---------- */
+.navbar-light .navbar-brand,
+.navbar-brand > a.text-dark{color:var(--ui-ink) !important}
+.navbar-light .navbar-nav-link{color:var(--ui-text)}
+.navbar-light .navbar-nav-link:hover,.navbar-light .navbar-nav-link:focus,
+.navbar-light .show > .navbar-nav-link{color:var(--ui-ink)}
+/* hover·열림 표시: 테마의 상단 바 높이만 한 각진 rgba(0,0,0,.04) 사각형(다크에서는 안 보임) 대신 안쪽 알약.
+   바탕을 칠하고 바깥 6px 을 상단 바 색 inset 그림자로 덮어 모서리 8 짜리 알약만 보이게 한다. 클릭 뒤 남는 :focus 는 표시하지 않는다(키보드는 :focus-visible) */
+.navbar-light .navbar-nav-link:focus,.navbar-light .navbar-nav-link:active{background-color:transparent}
+.navbar-light .navbar-nav-link:hover,.navbar-light .navbar-nav-link:focus-visible,
+.navbar-light .show > .navbar-nav-link,.navbar-light .navbar-nav-link.show{
+  background-color:var(--ui-hover);border-radius:calc(var(--ui-r) + 6px);box-shadow:inset 0 0 0 6px var(--ui-card);
+}
+.navbar-light .navbar-toggler{color:var(--ui-text)}
+.navbar-light .navbar-toggler:hover,.navbar-light .navbar-toggler:focus,.navbar-light .navbar-toggler[aria-expanded=true]{color:var(--ui-ink)}
+@media (max-width:767.98px){.navbar-expand-md.navbar-light .navbar-collapse{border-top-color:var(--ui-line)}}
+@media (max-width:991.98px){.navbar-expand-lg.navbar-light .navbar-collapse{border-top-color:var(--ui-line)}}
+.navbar-light .navbar-text{color:var(--ui-text)}
+
+/* 화면 모드 전환 — 상단 바 아이콘(지금 모드를 보여 줌, 누르면 라이트 → 다크 → 시스템) */
+.ui-theme-toggle{display:inline-flex !important;align-items:center}
+.ui-theme-toggle .ui-theme-ic{display:none;width:16px;text-align:center;font-size:15px}
+:root:not([data-theme="dark"]):not([data-theme="system"]) .ui-theme-ic-light,
+:root[data-theme="dark"] .ui-theme-ic-dark,
+:root[data-theme="system"] .ui-theme-ic-system{display:inline-block}
+/* 하단 바 — 라이트 · 다크 · 시스템 */
+.ui-theme-seg{display:inline-flex !important;align-items:center;gap:2px;padding:2px !important;border-radius:999px;background:var(--ui-gray-bg);vertical-align:middle}
+.ui-theme-seg .ui-theme-opt{
+  display:inline-flex;align-items:center;gap:5px;margin:0;padding:3px 10px;border:0;border-radius:999px;
+  background:transparent;color:var(--ui-gray);font:inherit;font-size:11.5px;font-weight:600;line-height:1.4;cursor:pointer;
+}
+.ui-theme-seg .ui-theme-opt:hover{color:var(--ui-ink)}
+.ui-theme-seg .ui-theme-opt:focus-visible{outline:2px solid var(--ui-brand);outline-offset:1px}
+:root:not([data-theme="dark"]):not([data-theme="system"]) .ui-theme-opt[data-ui-theme="1"],
+:root[data-theme="dark"] .ui-theme-opt[data-ui-theme="2"],
+:root[data-theme="system"] .ui-theme-opt[data-ui-theme="3"]{background:var(--ui-seg-on);color:var(--ui-ink);box-shadow:0 1px 2px rgba(16,24,40,.12)}
+:root[data-theme="dark"] .ui-theme-opt[data-ui-theme="2"]{box-shadow:0 1px 2px rgba(0,0,0,.4)}
+@media (prefers-color-scheme: dark){:root[data-theme="system"] .ui-theme-opt[data-ui-theme="3"]{box-shadow:0 1px 2px rgba(0,0,0,.4)}}
+
+/* ---------- 2. 카드 ---------- */
+.card{background-color:var(--ui-card);border-color:var(--ui-line)}
+.card-header,.card-footer{border-color:var(--ui-line)}
+.card-footer{background-color:var(--ui-soft)}
+.card .content-divider > span{background-color:var(--ui-card)}
+.card-header:not([class*=bg-]) + .table,.card-header:not([class*=bg-]) + div[class*=table-responsive],
+.card-body + .table,.card-body + div[class*=table-responsive],
+.card-footer + [class*=table-responsive],.card-footer + .table,.card.card-table{border-color:var(--ui-line)}
+
+/* ---------- 3. 표 ---------- */
+.table{color:var(--ui-text)}
+.table td,.table th,.table thead th,.table tbody + tbody,
+.table-bordered,.table-bordered td,.table-bordered th,
+.table-responsive > .table-bordered,
+.table-columned tbody td,.table-columned tbody th,.table-columned thead th{border-color:var(--ui-line)}
+.table .thead-light th{color:var(--ui-muted);background-color:var(--ui-soft);border-color:var(--ui-line)}
+.table .table{background-color:var(--ui-soft)}
+/* css/style.css 의 모든 표 줄 hover #f3f3f3 */
+.table tr:hover,.table tr:focus,
+.table-striped tbody tr:nth-of-type(odd):hover,.table-striped tbody tr:nth-of-type(odd):focus{background-color:var(--ui-row-hover)}
+.table-striped tbody tr:nth-of-type(odd){background-color:var(--ui-soft)}
+.table-active,.table-active > td,.table-active > th{background-color:var(--ui-hover)}
+.table-primary,.table-primary > td,.table-primary > th{background-color:var(--ui-blue-bg)}
+.table-success,.table-success > td,.table-success > th{background-color:var(--ui-green-bg)}
+.table-info,.table-info > td,.table-info > th{background-color:var(--ui-teal-bg)}
+.table-warning,.table-warning > td,.table-warning > th{background-color:var(--ui-amber-bg)}
+.table-danger,.table-danger > td,.table-danger > th{background-color:var(--ui-red-bg)}
+.table-secondary,.table-secondary > td,.table-secondary > th,
+.table-light,.table-light > td,.table-light > th{background-color:var(--ui-gray-bg)}
+
+/* ---------- 4. 입력 ---------- */
+.form-control,
+select.form-control{color:var(--ui-ink);background-color:var(--ui-input);border-color:var(--ui-line2);border-radius:var(--ui-r)}
+.form-control:not(.border-1):not(.border-2):not(.border-3):focus,
+.form-control:focus{border-color:var(--ui-brand);box-shadow:0 0 0 3px var(--ui-focus)}
+.form-control:disabled,.form-control[readonly]{background-color:var(--ui-soft);color:var(--ui-text)}
+.form-control::placeholder{color:var(--ui-muted);opacity:1}
+/* 맨 select(select2 를 안 쓰는 것 — 제보 거르기 'IP' 등): 운영체제 화살표 대신 select2 와 같은 얇은 꺾쇠 */
+select.form-control:not([multiple]):not([size]){-webkit-appearance:none;-moz-appearance:none;appearance:none;background-image:var(--ui-chevron);background-repeat:no-repeat;background-position:right .75rem center;background-size:12px 12px;padding-right:2rem}
+select.form-control::-ms-expand{display:none}
+.form-control-plaintext,.form-control-feedback{color:var(--ui-ink)}
+select.form-control option,select.form-control optgroup{background-color:var(--ui-card);color:var(--ui-ink)}
+.custom-select{color:var(--ui-ink);background-color:var(--ui-input);border-color:var(--ui-line2);border-radius:var(--ui-r)}
+.custom-select:focus{border-color:var(--ui-brand);box-shadow:0 0 0 3px var(--ui-focus)}
+.custom-select:disabled{background-color:var(--ui-soft);color:var(--ui-muted)}
+.input-group-text{color:var(--ui-text);background-color:var(--ui-soft);border-color:var(--ui-line2);border-radius:var(--ui-r)}
+.input-group > .input-group-prepend > .input-group-text,.input-group > .input-group-append:not(:last-child) > .input-group-text{border-top-right-radius:0;border-bottom-right-radius:0}
+.input-group > .input-group-append > .input-group-text,.input-group > .input-group-prepend:not(:first-child) > .input-group-text{border-top-left-radius:0;border-bottom-left-radius:0}
+
+/* 파일 고르기(맨 input[type=file] 의 버튼) */
+input[type=file]::file-selector-button{
+  margin:0 10px 0 0;padding:3px 10px;border:1px solid var(--ui-line2);border-radius:var(--ui-r-sm);
+  background:var(--ui-soft);color:var(--ui-text);font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;
+}
+input[type=file]::file-selector-button:hover{background:var(--ui-hover);color:var(--ui-ink)}
+input[type=file]::-webkit-file-upload-button{
+  margin:0 10px 0 0;padding:3px 10px;border:1px solid var(--ui-line2);border-radius:var(--ui-r-sm);
+  background:var(--ui-soft);color:var(--ui-text);font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;
+}
+
+/* custom-file('워터마크 파일 올리기 / Browse' — /editor_image_module) */
+.custom-file-label{color:var(--ui-muted);background-color:var(--ui-input);border-color:var(--ui-line2);border-radius:var(--ui-r);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.custom-file-label::after,
+.custom-file-input:lang(en) ~ .custom-file-label::after{
+  content:"파일 선택";color:var(--ui-text);background-color:var(--ui-soft);border-left:1px solid var(--ui-line2);
+  border-radius:0 var(--ui-r) var(--ui-r) 0;font-weight:600;font-size:12.5px;
+}
+.custom-file-input:focus ~ .custom-file-label,
+.custom-file-input:focus ~ .custom-file-label::after{border-color:var(--ui-brand)}
+.custom-file-input:focus ~ .custom-file-label{box-shadow:0 0 0 3px var(--ui-focus)}
+
+/* bootstrap 체크(분류·Public Archive 추가) */
+.custom-control-label::before{background-color:var(--ui-input);border:1px solid var(--ui-line2)}
+.custom-checkbox .custom-control-label::before{border-radius:4px}
+.custom-control-input:checked ~ .custom-control-label::before,
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before,
+.custom-radio .custom-control-input:checked ~ .custom-control-label::before{border-color:var(--ui-brand);background-color:var(--ui-brand)}  /* bootstrap 의 .custom-radio …:checked(#455a64 슬레이트, 특정도 0,3,1)까지 */
+.custom-control-input:disabled ~ .custom-control-label::before{background-color:var(--ui-soft)}
+.custom-control-input:focus ~ .custom-control-label::before{box-shadow:0 0 0 3px var(--ui-focus)}
+
+/* 버튼 */
+.btn{border-radius:var(--ui-r)}
+.btn-light{color:var(--ui-text);background-color:var(--ui-card);border-color:var(--ui-line2)}
+.btn-light:hover,.btn-light:focus,.btn-light.focus,
+.btn-light:not([disabled]):not(.disabled):active,.btn-light:not([disabled]):not(.disabled).active,
+.show > .btn-light.dropdown-toggle{color:var(--ui-ink);background-color:var(--ui-hover);border-color:var(--ui-line2)}
+.btn-light.disabled,.btn-light:disabled{background-color:var(--ui-soft);border-color:var(--ui-line)}
+.btn-dark,.btn.bg-dark{background-color:var(--ui-ink) !important;border-color:transparent !important;color:var(--ui-on-ink) !important}
+/* 옛 테마 원색 버튼 → 새 톤. 파랑 셋(#03A9F4 검색 · #2196F3 진행 · 강조 파랑)이 흩어지던 것을 강조 파랑 하나로, 초록·주황은 흰 글씨 대비 3:1 넘게.
+   style="… !important" 로 색을 박은 버튼(카카오스토리 등)은 그대로 */
+.btn-primary,.btn.bg-primary,.btn.bg-blue,.btn[class*="bg-primary-"],.btn.bg-light-blue,.btn-info,.btn.bg-info{background-color:var(--ui-brand) !important;border-color:transparent !important;color:#fff !important}
+.btn-success,.btn.bg-success,.btn.bg-green,.btn[class*="bg-success-"]{background-color:var(--ui-btn-green) !important;border-color:transparent !important;color:#fff !important}
+.btn-warning,.btn.bg-warning,.btn.bg-orange,.btn[class*="bg-warning-"]{background-color:var(--ui-btn-orange) !important;border-color:transparent !important;color:#fff !important}
+.btn-danger,.btn.bg-danger{background-color:#E5484D !important;border-color:transparent !important;color:#fff !important}
+.btn-primary:not(:disabled):hover,.btn.bg-primary:hover,.btn.bg-blue:hover,.btn-info:not(:disabled):hover,.btn.bg-info:hover,
+.btn-success:not(:disabled):hover,.btn.bg-success:hover,.btn-warning:not(:disabled):hover,.btn.bg-warning:hover,.btn.bg-orange:hover,
+.btn-danger:not(:disabled):hover,.btn.bg-danger:hover{filter:brightness(.94)}
+/* 회색 버튼(모달 '닫기' btn-secondary · 타임라인 거르기 '전체' bg-grey — 옛 #777 꽉 찬 회색) → 회색 배지와 같은 연한 회색 버튼 */
+.btn-secondary,.btn.bg-grey,.btn.bg-secondary{background-color:var(--ui-gray-bg) !important;border-color:transparent !important;color:var(--ui-ink) !important}
+.btn-secondary:not(:disabled):hover,.btn.bg-grey:hover,.btn.bg-secondary:hover{filter:brightness(.95)}
+.badge-light{color:var(--ui-text);background-color:var(--ui-gray-bg)}
+/* 테두리 버튼(회원 리스트 등급 거르기 · css/style.css .bg-transp) */
+.btn.bg-transp,.btn.bg-transp.text-white{background-color:transparent;border:1px solid var(--ui-line2);color:var(--ui-text) !important}
+.btn.bg-transp:hover{background-color:var(--ui-hover);color:var(--ui-ink) !important}
+.bg-transp_fit,.transp{border-color:var(--ui-line2) !important;color:var(--ui-text) !important}
+
+/* 안내 글씨로 쓰는 <code>('PNG 파일만 가능' · '* 필수' 등) → 빨간 고정폭 대신 조용한 알약.
+   글 편집 칸(기사 본문) 안의 code 는 그대로 둔다 */
+code:not(.note-editing-area code){
+  display:inline-block;padding:1px 7px;border-radius:var(--ui-r-sm);
+  background:var(--ui-gray-bg);color:var(--ui-gray);
+  font-family:inherit;font-size:11.5px;font-weight:600;line-height:1.5;letter-spacing:0;vertical-align:middle;word-break:keep-all;
+}
+/* 항목 이름 옆 보조 설명(<code class="code2">ⓘ …</code>) → 파란 보조 글씨 */
+code.code2:not(.note-editing-area code){background:transparent;color:var(--ui-blue);padding:0 2px;font-weight:500;font-size:12px}
+.badge code,code.badge{background:transparent;padding:0}
+code:empty,code:has(> .search_results:empty){display:none}  /* 빈 code(Public Archive 검색 결과 자리 등)가 작은 빈 알약으로 남지 않게 */
+pre{color:var(--ui-ink);background-color:var(--ui-soft);border-color:var(--ui-line);border-radius:var(--ui-r)}
+kbd{border-radius:var(--ui-r-sm)}
+
+/* ---------- 5. 떠 있는 상자(드롭다운·모달·팝오버·툴팁) ---------- */
+.dropdown-menu{
+  color:var(--ui-ink);background-color:var(--ui-card);border:1px solid var(--ui-line);
+  border-radius:var(--ui-r);box-shadow:var(--ui-shadow-pop);padding:6px 0;
+}
+.dropdown-item{color:var(--ui-text)}
+.dropdown-item:hover,.dropdown-item:focus,.dropdown-item:active,.dropdown-item-open,
+.dropdown-menu > .dropdown-submenu.show > .dropdown-item,.dropdown-menu > .dropdown-submenu:hover > .dropdown-item{color:var(--ui-ink);background-color:var(--ui-hover)}
+.dropdown-item-text{color:var(--ui-text)}
+.dropdown-divider{border-top-color:var(--ui-line)}
+.dropdown-header{color:var(--ui-muted)}
+.navbar .dropdown-menu .dropdown-item{margin:0 6px;border-radius:var(--ui-r-sm);padding-left:.75rem;padding-right:.75rem}
+.navbar .dropdown-menu .dropdown-item i{color:var(--ui-muted)}
+
+.modal-content{background-color:var(--ui-card);border:1px solid var(--ui-line);border-radius:var(--ui-r-lg);box-shadow:var(--ui-shadow-pop);color:var(--ui-ink)}
+.modal-header:not([class*=bg-]){border-bottom-color:var(--ui-line)}
+.modal-footer{border-top-color:var(--ui-line)}
+.modal-header{border-top-left-radius:calc(var(--ui-r-lg) - 1px);border-top-right-radius:calc(var(--ui-r-lg) - 1px)}
+.modal-footer{border-bottom-left-radius:calc(var(--ui-r-lg) - 1px);border-bottom-right-radius:calc(var(--ui-r-lg) - 1px)}
+.modal-title{color:var(--ui-ink)}
+/* 모달은 .content 밖이라 style2 의 .content 규칙이 안 닿는다 — 입력·버튼 모서리를 여기서 */
+.modal .btn{border-radius:var(--ui-r);font-weight:600}
+.modal-backdrop.show{opacity:.45}
+
+.popover{background-color:var(--ui-card);border-color:var(--ui-line);border-radius:var(--ui-r);box-shadow:var(--ui-shadow-pop)}
+.popover-header{background-color:var(--ui-soft);border-bottom-color:var(--ui-line);color:var(--ui-ink)}
+.popover-body{color:var(--ui-text)}
+.bs-popover-top .arrow::after,.bs-popover-auto[x-placement^=top] .arrow::after{border-top-color:var(--ui-card)}
+.bs-popover-bottom .arrow::after,.bs-popover-auto[x-placement^=bottom] .arrow::after{border-bottom-color:var(--ui-card)}
+.bs-popover-left .arrow::after,.bs-popover-auto[x-placement^=left] .arrow::after{border-left-color:var(--ui-card)}
+.bs-popover-right .arrow::after,.bs-popover-auto[x-placement^=right] .arrow::after{border-right-color:var(--ui-card)}
+.bs-popover-top .arrow::before,.bs-popover-auto[x-placement^=top] .arrow::before{border-top-color:var(--ui-line)}
+.bs-popover-bottom .arrow::before,.bs-popover-auto[x-placement^=bottom] .arrow::before{border-bottom-color:var(--ui-line)}
+.bs-popover-left .arrow::before,.bs-popover-auto[x-placement^=left] .arrow::before{border-left-color:var(--ui-line)}
+.bs-popover-right .arrow::before,.bs-popover-auto[x-placement^=right] .arrow::before{border-right-color:var(--ui-line)}
+.tooltip-inner{background-color:var(--ui-ink);color:var(--ui-on-ink);border-radius:var(--ui-r-sm);font-weight:500}
+.bs-tooltip-top .arrow::before,.bs-tooltip-auto[x-placement^=top] .arrow::before{border-top-color:var(--ui-ink)}
+.bs-tooltip-bottom .arrow::before,.bs-tooltip-auto[x-placement^=bottom] .arrow::before{border-bottom-color:var(--ui-ink)}
+.bs-tooltip-left .arrow::before,.bs-tooltip-auto[x-placement^=left] .arrow::before{border-left-color:var(--ui-ink)}
+.bs-tooltip-right .arrow::before,.bs-tooltip-auto[x-placement^=right] .arrow::before{border-right-color:var(--ui-ink)}
+
+.list-group{background-color:var(--ui-card);border-radius:var(--ui-r)}
+.list-group-item{background-color:var(--ui-card);border-color:var(--ui-line);color:var(--ui-text)}
+.list-group-item-action:hover,.list-group-item-action:focus{background-color:var(--ui-hover);color:var(--ui-ink)}
+.nav-tabs{border-bottom-color:var(--ui-line)}
+.nav-tabs .nav-link{color:var(--ui-muted)}
+.nav-tabs .nav-link:hover,.nav-tabs .nav-link:focus{color:var(--ui-ink)}
+.nav-tabs .nav-item.show .nav-link,.nav-tabs .nav-link.active{color:var(--ui-ink);background-color:var(--ui-card);border-color:var(--ui-line) var(--ui-line) var(--ui-card)}
+.nav-pills .nav-link:not(.active):hover,.nav-pills .nav-link:not(.active):focus{color:var(--ui-ink)}
+.media-list-bordered .media,.media-list-linked li.media,.media-list-linked a.media{border-color:var(--ui-line)}
+
+/* 페이지 번호 — .content 밖(모달 등)에 있는 것. .content 안은 style2.css */
+.page-link{color:var(--ui-text);background-color:var(--ui-card);border-color:var(--ui-line)}
+.page-link:hover{color:var(--ui-ink);background-color:var(--ui-hover);border-color:var(--ui-line)}
+.page-item.disabled .page-link{color:var(--ui-faint);background-color:var(--ui-card);border-color:var(--ui-line)}
+
+/* ---------- 6. 알림(alert) — style2 배지와 같은 연한 바탕 + 진한 글씨, 모서리 8 ---------- */
+.alert{border:1px solid transparent;border-radius:var(--ui-r);color:var(--ui-ink)}
+.alert-primary{background-color:var(--ui-blue-bg);color:var(--ui-blue);border-color:transparent}
+.alert-info{background-color:var(--ui-teal-bg);color:var(--ui-teal);border-color:transparent}
+.alert-success{background-color:var(--ui-green-bg);color:var(--ui-green);border-color:transparent}
+.alert-warning{background-color:var(--ui-amber-bg);color:var(--ui-amber);border-color:transparent}
+.alert-danger{background-color:var(--ui-red-bg);color:var(--ui-red);border-color:transparent}
+.alert-secondary,.alert-light,.alert-dark{background-color:var(--ui-gray-bg);color:var(--ui-gray);border-color:transparent}
+.alert .alert-link{color:inherit;font-weight:700}
+.alert hr{border-top-color:var(--ui-line)}
+.alert-dismissible .close{color:inherit;opacity:.55}
+.alert-dismissible:not(:has(> .close)){padding-right:1.25rem}  /* 닫기 단추가 없는데 오른쪽 60px 을 비워 두던 것(휴대폰에서 글이 몇 글자씩 꺾임) */
+.alert-dismissible .close:hover{opacity:.9}
+/* 왼쪽 색띠 알림(alert-styled-left): 두꺼운 색띠·흰 아이콘 대신 같은 바탕 안의 색 아이콘 */
+.alert.alert-styled-left{border-left-width:1px;padding-left:2.75rem}
+.alert.alert-styled-left[class*=bg-]:not(.bg-white):not(.bg-light){border-left-color:transparent !important}
+.alert[class*=alert-styled-]:after{left:1rem;width:auto;top:1.0625rem;margin-top:0;color:inherit;opacity:.85;font-size:.9375rem}
+.modal-body.alert.alert-styled-left{border-radius:var(--ui-r)}
+
+/* ---------- 7. 플러그인 ---------- */
+
+/* select2 — 선택칸 8, 펼침 목록은 떨어진 상자(8), 칩 6 */
+.select2-selection--single,.select2-selection--multiple{border-radius:var(--ui-r)}
+.select2-selection--single{color:var(--ui-ink)}
+/* 목록에 없는 값이 들어가 표시 칸이 빈 경우(글 편집 '이 기사의 추천뉴스 설정') 높이 16px 막대로 줄던 것 — 빈 칸도 한 줄 높이 */
+.select2-selection--single .select2-selection__rendered:empty::before{content:"\00a0"}
+/* 미리보기 그림을 넣는 select2(중단부분 'UI 타입')에서 그림이 없는 항목(src="")은 그림을 그리지 않는다 */
+.select2-container img[src=""]{display:none !important}
+.select2-selection--single:not([class*=bg-]),.select2-selection--multiple:not([class*=bg-]){background-color:var(--ui-input)}
+.select2-selection--single:not([class*=bg-]):not([class*=border-]),.select2-selection--multiple:not([class*=bg-]):not([class*=border-]){border-color:var(--ui-line2)}
+.select2-container--open .select2-selection--single,.select2-selection--single:focus,.select2-selection--single:hover,
+.select2-container--focus .select2-selection--multiple{box-shadow:none}
+.select2-container--open .select2-selection--single:not([class*=border-]),.select2-container--open .select2-selection--multiple:not([class*=border-]),
+.select2-container--focus .select2-selection--single:not([class*=border-]),.select2-container--focus .select2-selection--multiple:not([class*=border-]){border-color:var(--ui-brand);box-shadow:0 0 0 3px var(--ui-focus)}
+.select2-container--open.select2-container--below .select2-selection--single,.select2-container--open.select2-container--below .select2-selection--multiple,
+.select2-container--open.select2-container--above .select2-selection--single,.select2-container--open.select2-container--above .select2-selection--multiple{border-radius:var(--ui-r)}
+.select2-selection--single .select2-selection__placeholder,.select2-selection--multiple .select2-selection__placeholder{color:var(--ui-muted)}
+.select2-selection--single .select2-selection__arrow:after{color:var(--ui-muted)}
+.select2-container--disabled .select2-selection--single:not([class*=bg-]),
+.select2-container--disabled .select2-selection--multiple:not([class*=bg-]){background-color:var(--ui-soft);color:var(--ui-muted)}
+/* 칩(공유 기능 '페이스북 × 트위터 ×' 등) */
+.select2-selection--multiple .select2-selection__choice,
+.select2-selection--multiple .select2-selection__choice:hover,.select2-selection--multiple .select2-selection__choice:focus,
+.select2-container--disabled .select2-selection--multiple .select2-selection__choice:hover{
+  background-color:var(--ui-gray-bg);color:var(--ui-ink);border:1px solid var(--ui-line2);border-radius:var(--ui-r-sm);
+  padding:.1875rem .625rem;margin-top:.25rem;margin-right:.25rem;font-weight:500;
+}
+.select2-selection--multiple .select2-selection__rendered{padding:0 .25rem .25rem}
+/* 긴 칩(이름 + 해시 · 긴 영문 분류)이 칸 오른쪽에서 잘리고 × 가 안 보이던 것 — 칸 안에서 줄을 바꾼다 */
+.select2-selection--multiple .select2-selection__choice{max-width:calc(100% - .25rem);white-space:normal;overflow-wrap:anywhere}
+.select2-selection--multiple .select2-selection__choice .select2-selection__choice__remove{color:var(--ui-gray);opacity:.85;margin-left:.5rem;margin-top:.125rem}
+.select2-selection--multiple .select2-selection__choice .select2-selection__choice__remove:hover{color:var(--ui-red)}
+.select2-selection--multiple .select2-search--inline .select2-search__field{color:var(--ui-ink)}
+/* 펼침 목록(body 에 붙음) */
+.select2-dropdown{background-color:var(--ui-card);color:var(--ui-ink);border:1px solid var(--ui-line);border-radius:var(--ui-r);box-shadow:var(--ui-shadow-pop);overflow:hidden}
+.select2-container--open .select2-dropdown--below{border-top:1px solid var(--ui-line);border-radius:var(--ui-r);margin-top:4px}
+.select2-container--open .select2-dropdown--above{border-bottom:1px solid var(--ui-line);border-radius:var(--ui-r);margin-top:-4px}
+.select2-results > .select2-results__options{padding:.375rem}
+.select2-search--hide + .select2-results > .select2-results__options,.select2-results:first-child > .select2-results__options{padding-top:.375rem}
+.select2-results__option{border-radius:var(--ui-r-sm);padding:.4375rem .75rem}
+.select2-results__option.select2-results__option--highlighted{background-color:var(--ui-hover);color:var(--ui-ink)}
+.select2-results__option[aria-selected=true]{background-color:var(--ui-blue-bg);color:var(--ui-blue);font-weight:600}
+.select2-results__option[aria-selected=true].select2-results__option--highlighted{background-color:var(--ui-blue-bg);color:var(--ui-blue)}
+.select2-results__option[aria-disabled=true],.select2-results__message{color:var(--ui-muted)}
+.select2-results__group{color:var(--ui-muted)}
+.select2-search--dropdown{padding:.625rem .625rem .25rem}
+.select2-search--dropdown:after{left:1.5rem}
+.select2-search--dropdown .select2-search__field{background-color:var(--ui-input);color:var(--ui-ink);border:1px solid var(--ui-line2);border-radius:var(--ui-r-sm);padding-left:2.25rem}
+.select2-search--dropdown .select2-search__field:focus{border-color:var(--ui-brand)}
+.select2-close-mask{background-color:transparent}
+
+/* tagsinput(쉼표 항목 — 키워드 등) */
+.bootstrap-tagsinput{background-color:var(--ui-input);border-color:var(--ui-line2);border-radius:var(--ui-r);padding:0 .25rem .25rem}
+.bootstrap-tagsinput:focus-within{border-color:var(--ui-brand);box-shadow:0 0 0 3px var(--ui-focus)}
+.bootstrap-tagsinput input{color:var(--ui-ink)}
+.bootstrap-tagsinput input::placeholder{color:var(--ui-muted)}
+.bootstrap-tagsinput .tag{border-radius:var(--ui-r-sm);margin:.25rem .25rem 0 0;padding:.1875rem 1.875rem .1875rem .625rem;font-weight:500}
+.bootstrap-tagsinput .tag:not([class*=bg-]){background-color:var(--ui-gray-bg);color:var(--ui-ink);box-shadow:inset 0 0 0 1px var(--ui-line2)}
+.bootstrap-tagsinput .tag:not([class*=bg-]):hover,.bootstrap-tagsinput .tag:not([class*=bg-]):focus{background-color:var(--ui-hover);color:var(--ui-ink)}
+.bootstrap-tagsinput .tag [data-role=remove]{right:.625rem;color:var(--ui-gray);opacity:.85}
+.bootstrap-tagsinput .tag [data-role=remove]:hover{color:var(--ui-red)}
+
+/* switchery — JS 가 inline style 로 색을 넣어 !important 로 덮는다(켜짐 = 파란색) */
+.switchery{background-color:var(--ui-line2) !important;border-color:var(--ui-line2) !important;box-shadow:none !important}
+.form-input-switchery:checked + .switchery,input:checked + .switchery{background-color:var(--ui-brand) !important;border-color:var(--ui-brand) !important}
+.switchery > small{background-color:var(--ui-knob) !important;box-shadow:0 1px 2px rgba(16,24,40,.28) !important}
+
+/* uniform 체크·라디오(메뉴·중단부분·메인 모달) */
+.uniform-checker span,.uniform-choice span{border-color:var(--ui-muted);border-width:.09375rem;background-color:var(--ui-input)}
+.uniform-checker span{border-radius:4px;color:var(--ui-brand)}
+.uniform-checker span.checked{background-color:var(--ui-brand);border-color:var(--ui-brand)}
+.uniform-checker span:after{color:#fff}
+.uniform-choice span.checked{border-color:var(--ui-brand)}
+.uniform-choice span:after{border-color:var(--ui-brand)}
+.uniform-select{color:var(--ui-ink);background-color:var(--ui-input);border-color:var(--ui-line2);border-radius:var(--ui-r)}
+.uniform-uploader .filename{background-color:var(--ui-input);border-color:var(--ui-line2)}
+
+/* spectrum 색 고르기 */
+.sp-replacer{background-color:var(--ui-input);border-color:var(--ui-line2);border-radius:var(--ui-r);color:var(--ui-text)}
+.sp-replacer:not([class*=bg-]):hover,.sp-replacer:not([class*=bg-]).sp-active{background-color:var(--ui-hover);color:var(--ui-ink)}
+.sp-replacer .sp-preview{border-radius:4px;overflow:hidden;box-shadow:inset 0 0 0 1px var(--ui-line2)}  /* 흰 색칩이 흰 입력칸에 묻히지 않게 */
+.sp-replacer .sp-preview-inner{box-shadow:inset 0 0 0 1px rgba(127,127,127,.25)}
+#bg_colour_wrap{border:1px solid var(--ui-line2);border-radius:var(--ui-r)}  /* 메뉴 배경색 미리보기 막대(색은 데이터라 그대로) */
+.sp-container{background-color:var(--ui-card);border-color:var(--ui-line);border-radius:var(--ui-r);box-shadow:var(--ui-shadow-pop)}
+.sp-input{background-color:var(--ui-input);color:var(--ui-ink);border-color:var(--ui-line2);border-radius:var(--ui-r-sm)}
+.sp-cancel,.sp-palette-toggle{color:var(--ui-text);background-color:var(--ui-soft);border-color:var(--ui-line2);border-radius:var(--ui-r-sm)}
+.sp-cancel:hover,.sp-cancel:focus,.sp-palette-toggle:hover,.sp-palette-toggle:focus{color:var(--ui-ink);background-color:var(--ui-hover);border-color:var(--ui-line2)}
+.sp-choose{border-radius:var(--ui-r-sm)}
+.sp-clear-display:after{color:var(--ui-ink)}
+
+/* daterangepicker(자사 글 보기 날짜) */
+.daterangepicker .calendar,.daterangepicker .ranges{background-color:var(--ui-card);border-color:var(--ui-line);border-radius:var(--ui-r);color:var(--ui-ink);box-shadow:var(--ui-shadow-pop)}
+.daterangepicker th.available:hover,.daterangepicker th.available:focus,
+.daterangepicker td.available:hover,.daterangepicker td.available:focus,
+.daterangepicker td.in-range{background-color:var(--ui-hover);color:var(--ui-ink)}
+.daterangepicker td.off,.daterangepicker td.disabled{color:var(--ui-faint)}
+.daterangepicker td.active,.daterangepicker td.active:hover,.daterangepicker td.active:focus{background-color:var(--ui-brand);color:#fff}
+.daterangepicker .table-condensed .month{color:var(--ui-ink)}
+.daterangepicker td,.daterangepicker th{border-radius:var(--ui-r-sm)}
+.daterangepicker select{background-color:var(--ui-input);color:var(--ui-ink);border-color:var(--ui-line2)}
+.ranges ul li{border-radius:var(--ui-r-sm)}
+.ranges ul li:hover,.ranges ul li:focus{background-color:var(--ui-hover);color:var(--ui-ink)}
+.ranges ul + .daterangepicker-inputs,.ranges .daterangepicker-inputs + .range_inputs{border-top-color:var(--ui-line)}
+
+/* nestable 끌어 놓기 줄(분류·메뉴·중단부분·메인) — 바탕·선 색은 각 화면 <style> 이 변수로 */
+.dd-handle{color:var(--ui-ink);background:var(--ui-soft);border-color:var(--ui-line2);border-radius:var(--ui-r)}
+.dd-handle:hover{color:var(--ui-brand);background:var(--ui-card)}
+.dd-placeholder,.dd-empty{background:var(--ui-blue-bg);border-color:var(--ui-brand);border-radius:var(--ui-r)}
+.dd-empty{background-color:var(--ui-soft);background-image:none}
+.dd-item > button{color:var(--ui-muted)}
+.dd-content #url{color:var(--ui-muted)}
+.dd-item .dd-cog:before{color:var(--ui-muted)}
+
+/* summernote 틀·도구 막대(편집 칸 자체는 아래 '편집 칸') */
+.note-editor.note-frame,.card .note-editor{border-color:var(--ui-line2)}
+.content .note-editor.note-frame.card{border-radius:var(--ui-r) !important;border-color:var(--ui-line2) !important;box-shadow:none !important}
+/* style2 의 .content .card{overflow:hidden} 이 편집 틀(.note-editor.card)과 그 바깥 카드에 걸려 글자 크기·색 드롭다운이 잘리던 것.
+   넘치게 두고, 모서리는 안쪽 첫·끝 칸에 둥글게 준다 */
+.content .note-editor.note-frame.card{overflow:visible !important}
+.content .card:has(.note-editor){overflow:visible}
+.content .card:has(.note-editor) > :first-child{border-top-left-radius:calc(var(--ui-r-card) - 1px);border-top-right-radius:calc(var(--ui-r-card) - 1px)}
+.content .card:has(.note-editor) > :last-child{border-bottom-left-radius:calc(var(--ui-r-card) - 1px);border-bottom-right-radius:calc(var(--ui-r-card) - 1px)}
+.note-editor.note-frame > .note-toolbar{border-radius:calc(var(--ui-r) - 1px) calc(var(--ui-r) - 1px) 0 0}
+.note-editor.note-frame > .note-statusbar{border-radius:0 0 calc(var(--ui-r) - 1px) calc(var(--ui-r) - 1px)}
+.note-toolbar .dropdown-fontsize,.note-toolbar .dropdown-fontname,.note-toolbar .dropdown-style{max-height:320px;overflow-y:auto}
+.note-toolbar .dropdown-menu .dropdown-item{margin:0 6px;border-radius:var(--ui-r-sm);width:auto}
+.note-toolbar .dropdown-menu .dropdown-item.checked,.note-toolbar .dropdown-menu .dropdown-item.active,
+.note-toolbar .dropdown-menu .dropdown-item:active{background-color:var(--ui-blue-bg);color:var(--ui-blue)}
+.content .note-editor .card-header.note-toolbar,
+.note-editor .card-header.note-toolbar{
+  padding:0 6px 6px 6px !important;background-color:var(--ui-soft) !important;border-bottom:1px solid var(--ui-line2) !important;
+}
+.note-toolbar .note-btn,.note-popover .note-btn{color:var(--ui-text);background-color:var(--ui-card);border-color:var(--ui-line2)}
+.note-toolbar .note-btn:hover,.note-toolbar .note-btn:focus,.note-toolbar .note-btn.active,
+.note-popover .note-btn:hover,.note-popover .note-btn.active{color:var(--ui-ink);background-color:var(--ui-hover)}
+.note-editor.note-frame .note-statusbar{background-color:var(--ui-soft);border-top-color:var(--ui-line2)}
+.note-statusbar .note-resizebar,.note-editor.note-frame .note-statusbar .note-resizebar .note-icon-bar,
+.note-statusbar .note-resizebar .note-icon-bar{border-top-color:var(--ui-faint)}
+.note-editor .note-dropzone{background-color:var(--ui-card);color:var(--ui-brand)}
+.note-popover .popover-content,.note-popover .popover-content.note-children-container{background-color:var(--ui-soft) !important;border-bottom-color:var(--ui-line) !important}
+.note-popover .popover-content .note-color .dropdown-menu .note-palette .note-palette-title,
+.card-header.note-toolbar .note-color .dropdown-menu .note-palette .note-palette-title{border-bottom-color:var(--ui-line)}
+.note-hint-popover .popover-content .note-hint-group .note-hint-item{color:var(--ui-text)}
+.note-editor .dropdown-style pre{background-color:var(--ui-card)}
+.note-modal-content,.note-modal .modal-content{background-color:var(--ui-card);color:var(--ui-ink)}
+
+/* sweetalert — JS 가 css 를 head 끝에 넣으므로 .swal-overlay 를 앞에 붙여 이긴다 */
+.swal-overlay{background-color:rgba(10,12,16,.45)}
+.swal-overlay .swal-modal{background-color:var(--ui-card);border-radius:var(--ui-r-lg);border:1px solid var(--ui-line);box-shadow:var(--ui-shadow-pop)}
+.swal-overlay .swal-title{color:var(--ui-ink)}
+.swal-overlay .swal-text{color:var(--ui-text)}
+.swal-overlay .swal-content{color:var(--ui-text)}
+.swal-overlay .swal-footer{border-top:0;background:transparent}
+.swal-overlay .swal-button{border-radius:var(--ui-r);background-color:var(--ui-brand);color:#fff;font-weight:600;box-shadow:none}
+.swal-overlay .swal-button:not([disabled]):hover{background-color:var(--ui-brand);filter:brightness(.94)}
+.swal-overlay .swal-button:focus{box-shadow:0 0 0 3px var(--ui-focus)}
+.swal-overlay .swal-button--cancel{background-color:var(--ui-gray-bg);color:var(--ui-text)}
+.swal-overlay .swal-button--cancel:not([disabled]):hover{background-color:var(--ui-hover);color:var(--ui-ink);filter:none}
+.swal-overlay .swal-button--danger{background-color:#E5484D}
+.swal-overlay .swal-content__input,.swal-overlay .swal-content__textarea{background-color:var(--ui-input);color:var(--ui-ink);border-color:var(--ui-line2);border-radius:var(--ui-r)}
+/* 성공 아이콘의 흰 가림 조각 */
+.swal-overlay .swal-icon--success:before,.swal-overlay .swal-icon--success:after,
+.swal-overlay .swal-icon--success__hide-corners{background-color:var(--ui-card)}
+
+/* 대시보드 알림 줄 점 */
+.list-feed-item:before{background-color:var(--ui-card);border-color:var(--ui-muted)}
+
+/* css/style.css 의 작은 부품들 */
+/* 형광펜('전체 : 203' · '검색어 - #…' · '#5275') — 라이트는 원래 노랑, 다크는 어두운 바탕에 맞춘 옅은 앰버 */
+span.highlight-container:before{background:var(--ui-mark-a)}
+span.highlight-container:after{background:var(--ui-mark-b)}
+span.highlight-container span.highlight{color:var(--ui-mark-ink)}
+/* 활동기록 확인 '적용위치' 테이블 이름(검은 1px 각진 상자) */
+.log_tablename{display:inline-block;border:1px solid var(--ui-line2);border-radius:var(--ui-r-sm);background:var(--ui-soft);color:var(--ui-ink);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;font-weight:600;letter-spacing:.5px;padding:3px 10px}
+/* 분류 줄의 글 수 '(3,860)' — 주황 #FF9800 11px 이 연한 바탕에서 흐려 앰버로 */
+span.comment{color:var(--ui-amber)}
+/* 메뉴 관리 'Menu Theme' 안내 그림(style="width:400px") — 휴대폰에서 본문 폭을 넘지 않게 */
+.content img[src^="/info_images/"]{max-width:100%;border-color:var(--ui-line2) !important}
+
+/* ---------- 8. 이미지 ---------- */
+/* 투명 PNG 확인용 체크무늬(img#meta_data) — 원래 css/style.css 의 모양 그대로, 색만 변수(다크에서는 검은·흰 로고가 모두 보이는 중간 회색 두 톤) */
+img#meta_data{
+  border:1px solid var(--ui-check-line);padding:10px;border-radius:var(--ui-r);
+  background-color:var(--ui-check-b);
+  background-image:linear-gradient(to bottom,transparent 50%,var(--ui-check-a) 50%),linear-gradient(to right,var(--ui-check-a) 50%,var(--ui-check-b) 50%);
+  background-size:10px 10px,10px 10px;
+}
+/* 빈 이미지 — 서버가 넣는 1px 투명 gif(lib/helpers.js BLANK_IMAGE·BLANK_IMAGE2)와 src="".
+   src 값은 그대로 두고(폼이 다시 저장하고 JS 가 비교함) 보이는 것만 '이미지 없음' 자리로 바꾼다.
+   투명 gif 는 바탕이 비쳐 보이고, src="" 는 최소 크기만 주면 깨진 그림 표시 없이 바탕이 보인다(크롬·사파리 확인).
+   체크무늬(img#meta_data)보다 앞서야 해서 !important */
+img[src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"],
+img[src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="],
+img[src=""]{
+  box-sizing:border-box;
+  min-width:128px;min-height:72px;aspect-ratio:16/9;
+  padding:0 !important;
+  border:1px dashed var(--ui-line2) !important;border-radius:var(--ui-r) !important;
+  background:var(--ui-soft) var(--ui-noimg) center / 96px 44px no-repeat !important;
+  vertical-align:middle;
+}
+/* src="" 에 inline width 가 있으면 크롬이 깨진 그림 표시를 겹쳐 그린다 — 크롬·사파리는 content 로 투명 gif 를 대신 그려 위 '이미지 없음' 바탕만 보이게.
+   (content 를 모르는 브라우저는 위 규칙만 — src 값은 그대로) */
+img[src=""]{content:url("data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==")}
+img[src=""]:not([width]):not([style*="width"]){width:128px}  /* 대신 그린 1px gif 의 1:1 비율로 128×128 이 되지 않게 — 폭을 정해 16:9(128×72) */
+
+/* 좁은 목록 칸(메인·프로젝트 화면 nestable 줄의 썸네일 칸 col-1 등)에서는 칸을 넘지 않게 작은 자리.
+   (src="" 는 위 content 규칙으로 투명 gif 를 대신 그리므로 폭을 줘도 깨진 그림 표시가 없다) */
+.dd-content img[src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"],
+.dd-content img[src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="],
+.dd-content img[src=""]{min-width:56px;min-height:40px;aspect-ratio:auto;background-size:88% auto !important}
+.dd-content img[src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"]:not([width]):not([style*="width"]),
+.dd-content img[src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="]:not([width]):not([style*="width"]),
+.dd-content img[src=""]:not([width]):not([style*="width"]){width:56px;height:40px}  /* 1px gif 의 1:1 비율로 56×56 이 되지 않게 */
+
+/* ---------- 9. 글 편집 칸(기사 실제 모양) — 다크에서도 흰 바탕·검은 글씨(WYSIWYG) ----------
+   변수를 라이트 값으로 되돌려 이 안의 표·code·체크무늬 등도 라이트로 보이게 한다. 도구 막대·테두리는 위 7 절(다크) */
+.note-editing-area{
+  color-scheme:light;
+  --ui-bg:#F7F8FA; --ui-card:#FFFFFF; --ui-soft:#FAFBFC; --ui-hover:#F4F6F9; --ui-row-hover:#F8FAFD; --ui-input:#FFFFFF;
+  --ui-line:#EEF0F3; --ui-line2:#DDE1E6; --ui-faint:#C3C8CF;
+  --ui-ink:#1F2329; --ui-text:#4A505A; --ui-muted:#8A919C; --ui-on-ink:#FFFFFF; --ui-brand:#3D7BE0;
+  --ui-gray-bg:#F1F3F5; --ui-gray:#5A616B; --ui-blue:#1F4FA8;
+  --ui-check-line:#E8E8E8; --ui-check-a:#CACACA; --ui-check-b:#FFFFFF;
+}
+.note-editor.note-frame .note-editing-area .note-editable{background-color:#fff !important}
